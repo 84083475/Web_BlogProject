@@ -24,8 +24,8 @@
 				</form>
 			</div>
 			<div class="col-md-2 column" style="position: relative; top: 20px;">
-				<a href="login.jsp" style="font-size: 20px;">登录</a>
-				<a href="register.jsp" style="font-size: 20px;">注册</a>
+				<a href="LoginServlet?act=useLogin" style="font-size: 20px;">登录</a>
+				<a href="LoginServlet?act=useRegister" style="font-size: 20px;">注册</a>
 			</div>
 		</div>
 		  <ul class="nav nav-tabs">
