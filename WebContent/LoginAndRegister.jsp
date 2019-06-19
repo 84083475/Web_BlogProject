@@ -63,15 +63,15 @@
   <!--注册-->
     <div class="qlogin" id="qlogin" style="display: none;">
     <div class="web_login">
-    <form name="form2" id="regUser" accept-charset="utf-8"  action="leader.jsp" method="get">
+    <form name="form2" id="regUser" accept-charset="utf-8"  action="LoginServlet" method="post">
         <ul class="reg_form" id="reg-ul">
         		<div id="userCue" class="cue">快速注册请注意格式</div>
         		
         		<li>
                  <label for="qq" class="input-tips2">账号：</label>
                     <div class="inputOuter2">
-                       
-                        <input type="text" id="userid" name="userid" maxlength="10" class="inputstyle2"/>
+                       	<input type="hidden" name="act" value="register"/>
+                        <input type="text" id="userid" name="userId" maxlength="10" class="inputstyle2"/>
                     </div>
                    
                 </li>
@@ -80,7 +80,7 @@
                 	
                     <label for="user"  class="input-tips2">用户名：</label>
                     <div class="inputOuter2">
-                        <input type="text" id="user" name="username" maxlength="16" class="inputstyle2"/>
+                        <input type="text" id="user" name="userName" maxlength="16" class="inputstyle2"/>
                     </div>
                     
                 </li>
@@ -88,14 +88,14 @@
                 <li>
                 <label for="passwd" class="input-tips2">密码：</label>
                     <div class="inputOuter2">
-                        <input type="password" id="passwd"  name="userpassword" maxlength="16" class="inputstyle2" />
+                        <input type="password" id="passwd"  name="userPassWord" maxlength="16" class="inputstyle2" />
                     </div>
                     
                 </li>
                 <li>
                 <label for="passwd2" class="input-tips2">确认密码：</label>
                     <div class="inputOuter2">
-                        <input type="password" id="passwd2" name="userpassword2" maxlength="16" class="inputstyle2" />
+                        <input type="password" id="passwd2"  maxlength="16" class="inputstyle2" />
                     </div>
                     
                 </li>

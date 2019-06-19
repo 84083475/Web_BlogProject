@@ -18,7 +18,7 @@ public class JdbcUtil {
 	private ResultSet rs=null;
 	private String url="jdbc:oracle:thin:@localhost:1521/orcl";
 	private String username="scott";
-	private String password="admin";
+	private String password="ADMIN";
 	
 	static{
 		try {

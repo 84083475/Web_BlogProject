@@ -20,9 +20,9 @@ public class Base extends HttpServlet {
 	
 	@Override
 	public void service(ServletRequest request, ServletResponse response) throws ServletException, IOException {
-		String action = request.getParameter("act");//通过名字判断要运行哪一个方法
+		String action = request.getParameter("act");
 		
-		//通过反射得到类 运行方法
+		
 		Class cla = this.getClass();
 		try {
 			Method method = cla.getDeclaredMethod(action, HttpServletRequest.class, HttpServletResponse.class);
