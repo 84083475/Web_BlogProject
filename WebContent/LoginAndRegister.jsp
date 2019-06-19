@@ -27,30 +27,26 @@
     <div class="web_qr_login" id="web_qr_login" style="display: block; height: 235px;">    
             <!--登录-->
             <div class="web_login" id="web_login">
-               
-               
-               <div class="login-box">
-    
-            
+            <div class="login-box">
 			<div class="login_form">
-				<form action="" name="loginform" accept-charset="utf-8" id="login_form" class="loginForm" method="post"><input type="hidden" name="did" value="0"/>
-               <input type="hidden" name="to" value="log"/>
+			<form action="LoginServlet" name="loginform" accept-charset="utf-8" id="login_form" class="loginForm" method="get">
+                <input type="hidden" name="act" value="login"/>
+                <input type="hidden" name="userName" value="test"/>
                 <div class="uinArea" id="uinArea">
                 <label class="input-tips" for="u">帐号：</label>
                 <div class="inputOuter" id="uArea">
-                    
-                    <input type="text" id="u" name="userName" class="inputstyle"/>
+                    <input type="text" id="u" name="userId" class="inputstyle"/>
                 </div>
                 </div>
                 <div class="pwdArea" id="pwdArea">
                <label class="input-tips" for="p">密码：</label> 
                <div class="inputOuter" id="pArea">
-                    
                     <input type="password" id="p" name="userPassWord" class="inputstyle"/>
                 </div>
                 </div>
                
-                <div style="padding-left:50px;margin-top:20px;"><input type="submit" value="登 录" style="width:150px;" class="button_blue"/></div>
+                <div style="padding-left:50px;margin-top:20px;">
+                <input type="submit" value="登 录" style="width:150px;" class="button_blue"/></div>
               </form>
            </div>
            

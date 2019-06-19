@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -23,10 +24,20 @@
 					<button type="submit" class="btn btn-default">Submit</button>
 				</form>
 			</div>
-			<div class="col-md-2 column" style="position: relative; top: 20px;">
-				<a href="LoginServlet?act=useLogin" style="font-size: 20px;">登录</a>
-				<a href="LoginServlet?act=useRegister" style="font-size: 20px;">注册</a>
-			</div>
+			<c:choose>
+				<c:when test="${user.userName==null }">
+					<div class="col-md-2 column" style="position: relative; top: 20px;">
+						<a href="LoginServlet?act=useLogin" style="font-size: 20px;">登录</a>
+						<a href="LoginServlet?act=useRegister" style="font-size: 20px;">注册</a>
+					</div>
+				</c:when>
+				<c:otherwise>
+					<div class="col-md-2 column" style="position: relative; top: 20px;">
+						<a type="button" class="btn btn-info" href="LoginServlet?act=userMess">${user.userName }</a>
+					</div>
+				</c:otherwise>
+			</c:choose>
+			
 		</div>
 		  <ul class="nav nav-tabs">
 		    <li class="active"><a href="#">首页</a></li>
@@ -45,12 +56,43 @@
 		    </li>
 		    <li><a href="#">板块4</a></li>
 		  </ul>
+		  
 		<div class="row clearfix">
 			<div class="col-md-2 column">
 			</div>
+			
+			<!-- 板块内容显示区域 -->
 			<div class="col-md-8 column">
 			</div>
-			<div class="col-md-2 column">
+			
+			<!-- 用户信息查询更改 -->
+			<div class="col-md-2 column" <c:if test="${count%2==0 }">style="display: none;"</c:if>>
+				<form action="LoginServletImp" class="form-horizontal" role="form" style="position:relative;top:80px;">
+					<div class="form-group">
+						 <label class="col-sm-4 control-label">账号</label>
+						<div class="col-sm-8">
+							<input type="hidden" name="act" value="update"/>
+							<input type="text" name="empno" class="form-control" id="empno" readonly="true" value="${User.userId}"/>
+						</div>
+					</div>
+					<div class="form-group">
+						 <label  class="col-sm-4 control-label">用户名</label>
+						<div class="col-sm-8">
+							<input type="text" name="ename" class="form-control" id="ename" value="${User.userName}"/>
+						</div>
+					</div>
+					<div class="form-group">
+						 <label class="col-sm-4 control-label">密码</label>
+						<div class="col-sm-8">
+							<input type="text" name="job" class="form-control" id="job" value="${User.userPassWord}"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							 <button type="submit" class="btn btn-default">submit</button>
+						</div>
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>
