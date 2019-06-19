@@ -34,6 +34,7 @@
 				<c:otherwise>
 					<div class="col-md-2 column" style="position: relative; top: 20px;">
 						<a type="button" class="btn btn-info" href="LoginServlet?act=userMess">${user.userName }</a>
+						<a type="button" class="btn btn-link" href="LoginServlet?act=useLogin">退出</a>
 					</div>
 				</c:otherwise>
 			</c:choose>
@@ -89,7 +90,7 @@
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-10">
-							 <button type="submit" class="btn btn-default">submit</button>
+							 <button type="submit" class="btn btn-default">修改</button>
 						</div>
 					</div>
 				</form>
