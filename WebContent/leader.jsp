@@ -72,19 +72,19 @@
 						 <label class="col-sm-4 control-label">账号</label>
 						<div class="col-sm-8">
 							<input type="hidden" name="act" value="update"/>
-							<input type="text" name="empno" class="form-control" id="empno" readonly="true" value="${User.userId}"/>
+							<input type="text" name="empno" class="form-control" id="empno" readonly="true" value="${user.userId}"/>
 						</div>
 					</div>
 					<div class="form-group">
 						 <label  class="col-sm-4 control-label">用户名</label>
 						<div class="col-sm-8">
-							<input type="text" name="ename" class="form-control" id="ename" value="${User.userName}"/>
+							<input type="text" name="ename" class="form-control" id="ename" value="${user.userName}"/>
 						</div>
 					</div>
 					<div class="form-group">
 						 <label class="col-sm-4 control-label">密码</label>
 						<div class="col-sm-8">
-							<input type="text" name="job" class="form-control" id="job" value="${User.userPassWord}"/>
+							<input type="text" name="job" class="form-control" id="job" value="${user.userPassWord}"/>
 						</div>
 					</div>
 					<div class="form-group">
