@@ -57,4 +57,15 @@ public class UserDaoImp implements IUserDao{
 		}
 		return null;
 	}
+
+	@Override
+	public void update(User user) {
+		List list = new ArrayList();
+		list.add(user.getUserName());
+		list.add(user.getUserPassWord());
+		list.add(user.getUserId());
+		
+		String sql = "update tb_user set username = ?,userpassword = ? where userId=?";
+		new JdbcUtil().updatePreparedStatement(sql, list);
+	}
 }

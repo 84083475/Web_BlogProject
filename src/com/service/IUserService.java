@@ -7,4 +7,6 @@ public interface IUserService {
 	public void register(User user);
 	//登录
 	public User login(User user);
+	//修改
+	public void update(User user);
 }

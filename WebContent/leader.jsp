@@ -68,24 +68,24 @@
 			
 			<!-- 用户信息查询更改 -->
 			<div class="col-md-2 column" <c:if test="${count%2==0 }">style="display: none;"</c:if>>
-				<form action="LoginServletImp" class="form-horizontal" role="form" style="position:relative;top:80px;">
+				<form action="LoginServlet" class="form-horizontal" role="form" style="position:relative;top:80px;">
 					<div class="form-group">
 						 <label class="col-sm-4 control-label">账号</label>
 						<div class="col-sm-8">
 							<input type="hidden" name="act" value="update"/>
-							<input type="text" name="empno" class="form-control" id="empno" readonly="true" value="${user.userId}"/>
+							<input type="text" name="userId" class="form-control"  readonly="true" value="${user.userId}"/>
 						</div>
 					</div>
 					<div class="form-group">
 						 <label  class="col-sm-4 control-label">用户名</label>
 						<div class="col-sm-8">
-							<input type="text" name="ename" class="form-control" id="ename" value="${user.userName}"/>
+							<input type="text" name="userName" class="form-control" i value="${user.userName}"/>
 						</div>
 					</div>
 					<div class="form-group">
 						 <label class="col-sm-4 control-label">密码</label>
 						<div class="col-sm-8">
-							<input type="text" name="job" class="form-control" id="job" value="${user.userPassWord}"/>
+							<input type="text" name="userPassWord" class="form-control"  value="${user.userPassWord}"/>
 						</div>
 					</div>
 					<div class="form-group">

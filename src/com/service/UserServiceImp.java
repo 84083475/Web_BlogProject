@@ -21,4 +21,11 @@ public class UserServiceImp implements IUserService{
 		User userMessage = udi.login(userId);
 		return userMessage;
 	}
+	@Override
+	public void update(User user) {
+		//业务处理
+		//链接数据库
+		UserDaoImp udi = new UserDaoImp();
+		udi.update(user);
+	}
 }

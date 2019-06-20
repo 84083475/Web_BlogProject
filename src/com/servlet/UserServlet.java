@@ -52,7 +52,16 @@ public class UserServlet extends Base {
 		//跳转 重定向
 		response.sendRedirect("LoginServlet?act=useLogin");
 	}
-	
+	//用户信息修改
+	public void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		 User user = new User();
+		//通过工具类 给每一个 属性赋值给model类
+		Conversion.conver(user, request);
+		//业务处理
+		new UserServiceImp().update(user);
+		//跳转回登陆页面
+		response.sendRedirect("LoginServlet?act=useLogin");
+	}
 	//用户信息显示
 	public void userMess(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
 		count++;

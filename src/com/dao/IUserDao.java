@@ -7,4 +7,6 @@ public interface IUserDao {
 	public void register(User user);
 	//登录
 	public User login(String userId);
+	//修改
+	public void update(User user);
 }
