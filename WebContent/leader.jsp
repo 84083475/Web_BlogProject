@@ -64,6 +64,21 @@
 			
 			<!-- 板块内容显示区域 -->
 			<div class="col-md-8 column">
+			
+				<div>
+					<p>
+						<a class="btn" href="#" style="font-size:36px; color:black;">Heading</a>
+					</p>
+					<p>
+						Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+					</p>
+					<p>
+				 		<a class="btn btn-default" href="#">转发11</a>
+				 		<a class="btn btn-default" href="#">评论111</a>
+				 		<a class="btn btn-default" href="#">点赞1111</a>
+					</p>
+				</div>
+				
 			</div>
 			
 			<div class="col-md-2 column">
