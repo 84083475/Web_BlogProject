@@ -41,7 +41,7 @@
 			
 		</div>
 		  <ul class="nav nav-tabs">
-		    <li class="active"><a href="#">推荐</a></li>
+		    <li><a href="leader.jsp">推荐</a></li>
 		    <li><a href="campusInform?act=search">校内通知</a></li>
 		    <li><a href="#">板块2</a></li>
 		    <li><a href="#">板块3</a></li>
@@ -62,11 +62,38 @@
 			<div class="col-md-2 column">
 			</div>
 			
-			<!-- 板块内容显示区域 -->
+			<!-- 内容显示区域 -->
 			<div class="col-md-8 column">
 			</div>
 			
+			<!-- 用户信息查询更改 -->
 			<div class="col-md-2 column">
+				<form action="LoginServlet" class="form-horizontal" role="form" style="position:relative;top:80px;">
+					<div class="form-group">
+						 <label class="col-sm-4 control-label">账号</label>
+						<div class="col-sm-8">
+							<input type="hidden" name="act" value="update"/>
+							<input type="text" name="userId" class="form-control" readonly="true" value="${user.userId}"/>
+						</div>
+					</div>
+					<div class="form-group">
+						 <label  class="col-sm-4 control-label">用户名</label>
+						<div class="col-sm-8">
+							<input type="text" name="userName" class="form-control" value="${user.userName}"/>
+						</div>
+					</div>
+					<div class="form-group">
+						 <label class="col-sm-4 control-label">密码</label>
+						<div class="col-sm-8">
+							<input type="text" name="userPassWord" class="form-control"  value="${user.userPassWord}"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							 <button type="submit" class="btn btn-default">修改</button>
+						</div>
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>

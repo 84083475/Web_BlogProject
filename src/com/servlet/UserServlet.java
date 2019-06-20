@@ -19,7 +19,6 @@ import com.util.Conversion;
  */
 @WebServlet("/LoginServlet")
 public class UserServlet extends Base {
-	private int count=0;
 	//点击登录后跳转
 	public void useLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.getRequestDispatcher("LoginAndRegister.jsp").forward(request, response);
@@ -61,11 +60,5 @@ public class UserServlet extends Base {
 		new UserServiceImp().update(user);
 		//跳转回登陆页面
 		response.sendRedirect("LoginServlet?act=useLogin");
-	}
-	//用户信息显示
-	public void userMess(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
-		count++;
-		request.setAttribute("count", count);
-		request.getRequestDispatcher("leader.jsp").forward(request, response);
 	}
 }
