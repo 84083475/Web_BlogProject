@@ -64,6 +64,20 @@
 			
 			<!-- 内容显示区域 -->
 			<div class="col-md-8 column">
+				<div>
+					<p>
+						<a class="btn" href="#" style="font-size:36px; color:black;">Heading</a>
+					</p>
+					<p>
+						ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
+					</p>
+					<p style="display:inline;">
+				 		<a class="btn btn-default" href="#">转发11</a>
+				 		<a class="btn btn-default" href="#">评论111</a>
+				 		<a class="btn btn-default" href="#">点赞1111</a>
+				 		<h5 style="display:inline;position:relative;left:350px;">2019-02-23</h5>
+					</p>
+				</div>
 			</div>
 			
 			<!-- 用户信息查询更改 -->
@@ -97,6 +111,5 @@
 			</div>
 		</div>
 	</div>
-	</body>
 </body>
 </html>
