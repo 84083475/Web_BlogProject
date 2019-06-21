@@ -82,6 +82,76 @@
 				
 			</div>
 			
+			
+			
+			
+			<%--页码--%>
+			<ul class="pagination">
+			
+				<%--cp:当前页  tp总页数--%>
+				
+				<%--首页--%>
+				<li >
+				<a href="#">首页</a>
+				</li>
+				<%--上一页--%>
+				<li <c:if test="${cp==1}"> class="disabled" </c:if>>
+				<a href="#<%-- KnowServlet?act=search&cp=${cp-1<=0 ?1 :cp-1} --%>">上一页</a>
+				</li>
+				
+				<%--中间页--%>
+			    <%--显示6页中间页[begin=起始页,end=最大页]--%>
+			    <%--总页数没有6页--%>
+			    <c:choose>
+			        <c:when test="${tp <= 6}">
+			            <c:set var="begin" value="1"/>
+			            <c:set var="end" value="${tp}"/>
+			        </c:when>
+			        <%--页数超过了6页--%>
+			        <c:otherwise>
+			            <c:set var="begin" value="${cp - 1}"/>
+			            <c:set var="end" value="${cp + 3}"/>
+			            <%--如果begin减1后为0,设置起始页为1,最大页为6--%>
+			            <c:if test="${begin -1 <= 0}">
+			                <c:set var="begin" value="1"/>
+			                <c:set var="end" value="6"/>
+			            </c:if>
+			            <%--如果end超过最大页,设置起始页=最大页-5--%>
+			            <c:if test="${end > tp}">
+			                <c:set var="begin" value="${tp - 5}"/>
+			                <c:set var="end" value="${tp}"/>
+			            </c:if>
+			        </c:otherwise>
+			    </c:choose>
+			    <%--遍历--%>
+			    <c:forEach var="i" begin="${begin}" end="${end}">
+			        <%--当前页,选中--%>
+			        <c:choose>
+			            <c:when test="${i == cp}">
+			                <li class="active"><a href="#<%-- KnowServlet?act=search&cp=${i} --%>">${i}</a></li>
+			            </c:when>
+			            <%--不是当前页--%>
+			            <c:otherwise>
+			                <li><a href="#">${i}</a></li>
+			            </c:otherwise>
+			        </c:choose>
+			    </c:forEach>				
+				
+				<%--下一页--%>
+				<li <c:if test="${cp==tp}"> class="disabled" </c:if>>
+				<a href="#<%-- KnowServlet?act=search&cp=${cp+1>tp ?tp :cp+1} --%>">下一页</a>
+				</li>
+				
+				<%--尾页--%>
+				<li >
+				<a href="#">尾页/${tp}</a>
+				</li>
+					
+			</ul> 
+			
+			
+			
+			
 			<div class="col-md-2 column">
 			</div>
 		</div>
