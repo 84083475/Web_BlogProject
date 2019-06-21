@@ -36,9 +36,15 @@ public class UserServlet extends Base {
 		Conversion.conver(user, request);
 		
 		User userMessage =new UserServiceImp().login(user);
-		HttpSession session= request.getSession();
-		session.setAttribute("user", userMessage);
-		response.sendRedirect("leader.jsp");
+		if(userMessage.getUserName()==null){
+			request.getRequestDispatcher("LoginAndRegister.jsp").forward(request, response);
+		}else{
+			HttpSession session= request.getSession();
+			session.setAttribute("user", userMessage);
+			
+			response.sendRedirect("leader.jsp");
+		}
+		
 	}
 	//注册
 	public void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -61,4 +67,20 @@ public class UserServlet extends Base {
 		//跳转回登陆页面
 		response.sendRedirect("LoginServlet?act=useLogin");
 	}
+	//ajax判断账号是否重复  回调函数
+	public void search(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		//设置请求和响应的编码格式
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		
+		String val = request.getParameter("val");
+		String userId = new UserServiceImp().search(val);
+		if(val.equals(userId)){
+			response.getWriter().print("该id不可用！！");
+		}else{
+			response.getWriter().print("id可用！！");
+		}
+	}
+	
 }

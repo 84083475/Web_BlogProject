@@ -9,4 +9,6 @@ public interface IUserService {
 	public User login(User user);
 	//修改
 	public void update(User user);
+	//ajax查询
+	public String search(String userId);
 }

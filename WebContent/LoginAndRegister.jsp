@@ -132,7 +132,28 @@
 		$('#web_qr_login').css('display','none');
 		});
 
-	
+	//找到进行操作的输入框  定义焦点离开事件
+	var p=true;
+	$("#userid").blur(function(){
+		var val = $(this).val();//得到输入框的值
+		$.ajax({
+			url:"LoginServlet?act=search",//请求地址
+			data:{"val":val},//请求的参数
+			type:"post",//请求的类型
+			dataType:"text",//接受的数据类型 text html xml json
+			//回调函数
+			success:function(result){
+				if(result=="该id不可用！！"){
+					p=false;
+				}
+				$("#userCue").html("<font color='red'><b>"+result+"</b></font>");
+			},
+			error:function(){
+				alert("ajax请求失败");
+			}
+			
+		})
+	});		
 	
 	
 $(document).ready(function() {
@@ -151,8 +172,6 @@ $(document).ready(function() {
 			return false;
 		}
 
-
-
 		if ($('#user').val().length < 4 || $('#user').val().length > 16) {
 			$('#userCue').html("<font color='red'><b>×用户名位4-16字符</b></font>");
 			return false;
@@ -164,6 +183,10 @@ $(document).ready(function() {
 		}
 		if ($('#passwd2').val() != $('#passwd').val()) {		
 			$('#userCue').html("<font color='red'><b>×两次密码不一致！</b></font>");
+			return false;
+		}
+		
+		if(p==false){
 			return false;
 		}
 	});
