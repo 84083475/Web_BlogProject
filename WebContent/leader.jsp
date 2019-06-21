@@ -76,7 +76,8 @@
 				 		<a class="btn btn-default" href="#">转发11</a>
 				 		<a class="btn btn-default" href="#">评论111</a>
 				 		<a class="btn btn-default" href="#">点赞1111</a>
-				 		<h5 style="display:inline;position:relative;left:350px;">2019-02-23</h5>
+				 		<h5 style="display:inline;position:relative;left:300px;">2019-02-23</h5>
+				 		<a href="#" style="position:relative;left:320px;">修改</a>
 					</p>
 				</div>
 				
