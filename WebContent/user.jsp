@@ -33,7 +33,7 @@
 				</c:when>
 				<c:otherwise>
 					<div class="col-md-2 column" style="position: relative; top: 20px;">
-						<a type="button" class="btn btn-info" href="user.jsp">${user.userName }</a>
+						<a type="button" class="btn btn-info" href="user.jsp"><span class="glyphicon glyphicon-user"></span>${user.userName }</a>
 						<a type="button" class="btn btn-link" href="LoginServlet?act=useLogin">退出</a>
 					</div>
 				</c:otherwise>
@@ -72,11 +72,26 @@
 						ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
 					</p>
 					<p style="display:inline;">
-				 		<a class="btn btn-default" href="#">转发11</a>
-				 		<a class="btn btn-default" href="#">评论111</a>
-				 		<a class="btn btn-default" href="#">点赞1111</a>
-				 		<h5 style="display:inline;position:relative;left:350px;">2019-02-23</h5>
+				 		<a type="button" class="btn btn-default btn-sm">
+         					 	<span class="glyphicon glyphicon-share-alt"></span>分享${cInfo.cTransmit }
+       					 	</a>
+						
+				 			<a class="btn btn-default btn-sm" href="#">
+				 				<span class="glyphicon glyphicon-pencil"></span>评论${cInfo.cReply }
+				 			</a>
+				 		
+				 			<a type="button" class="btn btn-default btn-sm">
+          						<span class="glyphicon glyphicon-thumbs-up"></span>点赞${cInfo.cPrise }
+        					</a>
+        					
+					 		<h5 style="display:inline;position:relative;left:300px;">${cInfo.cDate }</h5>
+					 		<c:if test="${user.userId==cInfo.userId }">
+					 			<a href="#" style="position:relative;left:320px;">修改</a>
+					 		</c:if>
 					</p>
+					<ul class="list-inline">
+						<li>---------------------------------------------------------------------------------------------------------------------------------------------------------------</li>
+					</ul>
 				</div>
 			</div>
 			

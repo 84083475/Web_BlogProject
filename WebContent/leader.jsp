@@ -33,7 +33,7 @@
 				</c:when>
 				<c:otherwise>
 					<div class="col-md-2 column" style="position: relative; top: 20px;">
-						<a type="button" class="btn btn-info" href="user.jsp">${user.userName }</a>
+						<a type="button" class="btn btn-info" href="user.jsp"><span class="glyphicon glyphicon-user"></span>${user.userName }</a>
 						<a type="button" class="btn btn-link" href="LoginServlet?act=useLogin">退出</a>
 					</div>
 				</c:otherwise>
@@ -73,12 +73,23 @@
 						Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
 					</p>
 					<p style="display:inline;">
-				 		<a class="btn btn-default" href="#">转发11</a>
-				 		<a class="btn btn-default" href="#">评论111</a>
-				 		<a class="btn btn-default" href="#">点赞1111</a>
+						 <a type="button" class="btn btn-default btn-sm">
+         					 <span class="glyphicon glyphicon-share-alt"></span>分享111
+       					 </a>
+						
+				 		<a class="btn btn-default btn-sm" href="#">
+				 			<span class="glyphicon glyphicon-pencil"></span>评论111
+				 		</a>
+				 		
+				 		<a type="button" class="btn btn-default btn-sm">
+          					<span class="glyphicon glyphicon-thumbs-up"></span>点赞111
+        				</a>
 				 		<h5 style="display:inline;position:relative;left:300px;">2019-02-23</h5>
 				 		<a href="#" style="position:relative;left:320px;">修改</a>
 					</p>
+					<ul class="list-inline">
+						<li>---------------------------------------------------------------------------------------------------------------------------------------------------------------</li>
+					</ul>
 				</div>
 				
 			</div>
