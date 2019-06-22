@@ -19,7 +19,7 @@ public class CInfoDaoImp implements ICInfoDao{
 			//JDBC数据库连接 1.加载驱动
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			//2.创建链接
-			Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "scott", "ADMIN");
+			Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "scott", "admin");
 			//3.获取一个Preparestatement
 			String sql = "select * from (select t1.* , rownum num  from ("
 					+ "select * from campus_inform order by cid) "
@@ -68,7 +68,7 @@ public class CInfoDaoImp implements ICInfoDao{
 			//JDBC数据库连接 1.加载驱动
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			//2.创建链接
-			Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "scott", "ADMIN");
+			Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "scott", "admin");
 			//3.获取一个Prepeastatement 预编译sql
 			String sql = "select count(*) from campus_inform";
 			PreparedStatement pstm = conn.prepareStatement(sql);
