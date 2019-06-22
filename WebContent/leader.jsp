@@ -44,7 +44,7 @@
 		    <li class="active"><a href="#">推荐</a></li>
 		    <li><a href="campusInform?act=search">校内通知</a></li>
 		    <li><a href="#">板块2</a></li>
-		    <li><a href="#">板块3</a></li>
+		    <li><a href="KnowServlet?act=search">冷门知识</a></li>
 		    <li class="dropdown">
 		      <a class="dropdown-toggle" data-toggle="dropdown" href="#">
 		        下拉板块 <span class="caret"></span>
