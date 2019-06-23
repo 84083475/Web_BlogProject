@@ -44,7 +44,7 @@
 		    <li><a href="leader.jsp">推荐</a></li>
 		    <li class="active"><a href="campusInform?act=search">校内通知</a></li>
 		    <li><a href="#">板块2</a></li>
-		    <li><a href="#">板块3</a></li>
+		    <li><a href="KnowServlet?act=search">冷门知识</a></li>
 		    <li class="dropdown">
 		      <a class="dropdown-toggle" data-toggle="dropdown" href="#">
 		        下拉板块 <span class="caret"></span>
@@ -67,27 +67,62 @@
 				<c:forEach items="${list }" var="cInfo">
 					<div>
 						<p>
-							<a class="btn" href="#" style="font-size:36px; color:black;">${cInfo.cName }</a>
+							<a class="btn" 
+							<c:choose>
+								<c:when test="${user.userName!=null }">
+									href="campusInform?act=intoText&cId=${cInfo.cId }"
+								</c:when>
+								<c:otherwise>
+									href="LoginServlet?act=useLogin"
+								</c:otherwise>
+							</c:choose> 
+							style="font-size:36px; color:black;">
+							${cInfo.cName }
+							</a>
 						</p>
 						<p>
 							${cInfo.cText }
 						</p>
 						<p style="display:inline;">
-							<a type="button" class="btn btn-default btn-sm">
+							<a class="btn btn-default btn-sm"
+							<c:choose>
+								<c:when test="${user.userName!=null }">
+									href="#"
+								</c:when>
+								<c:otherwise>
+									href="LoginServlet?act=useLogin"
+								</c:otherwise>
+							</c:choose> >
          					 	<span class="glyphicon glyphicon-share-alt"></span>分享${cInfo.cTransmit }
        					 	</a>
 						
-				 			<a class="btn btn-default btn-sm" href="#">
+				 			<a class="btn btn-default btn-sm" 
+			 				<c:choose>
+								<c:when test="${user.userName!=null }">
+									href="campusInform?act=intoText&cId=${cInfo.cId }"
+								</c:when>
+								<c:otherwise>
+									href="LoginServlet?act=useLogin"
+								</c:otherwise>
+							</c:choose> >
 				 				<span class="glyphicon glyphicon-pencil"></span>评论${cInfo.cReply }
 				 			</a>
 				 		
-				 			<a type="button" class="btn btn-default btn-sm">
+				 			<a class="btn btn-default btn-sm"
+				 			<c:choose>
+								<c:when test="${user.userName!=null }">
+									href="#"
+								</c:when>
+								<c:otherwise>
+									href="LoginServlet?act=useLogin"
+								</c:otherwise>
+							</c:choose> >
           						<span class="glyphicon glyphicon-thumbs-up"></span>点赞${cInfo.cPrise }
         					</a>
         					
 					 		<h5 style="display:inline;position:relative;left:300px;">${cInfo.cDate }</h5>
 					 		<c:if test="${user.userId==cInfo.userId }">
-					 			<a href="#" style="position:relative;left:320px;">修改</a>
+					 			<a href="#" style="position:relative;left:320px;">删除</a>
 					 		</c:if>
 						</p>
 						<ul class="list-inline">
