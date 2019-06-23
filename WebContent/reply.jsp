@@ -177,7 +177,7 @@
 							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 								&times;
 							</button>
-							<h5>评论</h5>
+							<input id="title" class="btn btn-default btn-lg btn-block" value="评论"/>
 						</div>
 						<form action="" accept-charset="utf-8" id="login_form" method="get">
 		                <input type="hidden" name="act" value=""/>
