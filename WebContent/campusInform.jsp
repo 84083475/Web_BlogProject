@@ -59,7 +59,13 @@
 		  </ul>
 		  
 		<div class="row clearfix">
+		
+		
 			<div class="col-md-2 column">
+				<c:if test="${user.userName!=null }">
+					<input type="button" class="btn btn-info btn-lg btn-block" value="校内通知发表"
+						style="position:relative;top:20px;" data-toggle="modal" data-target="#myModal"/>
+				</c:if>
 			</div>
 			
 			<!-- 板块内容显示区域 -->
@@ -83,17 +89,17 @@
 						<p>
 							${cInfo.cText }
 						</p>
+						<p>
+						<c:forEach items="${pictureList }" var="picture">
+							<c:if test="${picture.articleId==cInfo.cId }">
+								<img src="${picture.picturePath }" class="img-rounded" style="width: 200px;height: 200px;">
+							</c:if>
+						</c:forEach>
+						</p>
 						<p style="display:inline;">
-							<a class="btn btn-default btn-sm"
-							<c:choose>
-								<c:when test="${user.userName!=null }">
-									href="#"
-								</c:when>
-								<c:otherwise>
-									href="LoginServlet?act=useLogin"
-								</c:otherwise>
-							</c:choose> >
-         					 	<span class="glyphicon glyphicon-share-alt"></span>分享${cInfo.cTransmit }
+							<a class="btn btn-default btn-sm" onclick="share()">
+								<input type="hidden" value=""/>
+         					 	<span class="glyphicon glyphicon-share-alt"></span>分享
        					 	</a>
 						
 				 			<a class="btn btn-default btn-sm" 
@@ -107,22 +113,22 @@
 							</c:choose> >
 				 				<span class="glyphicon glyphicon-pencil"></span>评论${cInfo.cReply }
 				 			</a>
-				 		
-				 			<a class="btn btn-default btn-sm"
-				 			<c:choose>
-								<c:when test="${user.userName!=null }">
-									href="#"
-								</c:when>
-								<c:otherwise>
-									href="LoginServlet?act=useLogin"
+				 			<a onclick="prise(this)" 
+			 				<c:choose>
+			 					<c:when test="${cInfo.cStatus==0 }">
+			 						class="btn btn-default btn-sm"
+			 					</c:when>
+			 					<c:otherwise>
+									class="btn btn-info btn-sm"
 								</c:otherwise>
-							</c:choose> >
+			 				</c:choose> >
+				 				<input type="hidden" value="${cInfo.cId }"/>
           						<span class="glyphicon glyphicon-thumbs-up"></span>点赞${cInfo.cPrise }
         					</a>
         					
 					 		<h5 style="display:inline;position:relative;left:300px;">${cInfo.cDate }</h5>
 					 		<c:if test="${user.userId==cInfo.userId }">
-					 			<a href="#" style="position:relative;left:320px;">删除</a>
+					 			<a onclick="del(${cInfo.cId })" style="position:relative;left:320px;">删除</a>
 					 		</c:if>
 						</p>
 						<ul class="list-inline">
@@ -167,7 +173,7 @@
 				        <%--当前页,选中--%>
 				        <c:choose>
 				            <c:when test="${i == pagenumber}">
-				                <li class="active"><a href="emp?act=search&pagenumber=${i}">${i}</a></li>
+				                <li class="active"><a href="campusInform?act=search&pagenumber=${i}">${i}</a></li>
 				            </c:when>
 				            <%--不是当前页--%>
 				            <c:otherwise>
@@ -188,6 +194,94 @@
 			</div>
 		</div>
 	</div>
-	</body>
+	
+
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                <h4 class="modal-title" id="myModalLabel">Publish</h4>
+	            </div>
+	            <div class="modal-body">
+	            	<!-- 该类型的表单数据不是在头文件里面传送的   但是可以吧一些小信息拼接到action里面  其他文件需要在后台解析拿到 -->
+	            	<form action="campusInform?act=publish" method="post" enctype="multipart/form-data">
+						<div class="form-group">
+					 		<label for="exampleInputEmail1">文章名称</label>
+					 		<input type="text" class="form-control" name="articleName" />
+						</div>
+						<div class="form-group">
+							 <label for="exampleInputPassword1">内容</label>
+							 <textarea type="textarea" class="form-control" style="height:100px;" name="articleContent" ></textarea>
+						</div>
+						<div class="form-group">
+					 		<label for="exampleInputFile">请选择图片</label>
+					 		<input type="file" name="file" multiple="multiple"/>
+						<p class="help-block">
+							Ctrl+鼠标选择 可选择最多不超过九个图片进行发表哦~
+						</p>
+						</div>
+						<button type="submit" class="btn btn-default">Submit</button>
+					</form>
+	            </div>
+	        </div>
+	    </div>
+	</div>
 </body>
+<script type="text/javascript">
+	//点击点赞按钮后运行
+    function prise(c){
+		
+    	var articleId = c.firstElementChild.value;
+		var userId = "${user.userId}";
+		
+		if(${user.userName!=null}){
+			$.ajax({
+				url:"campusInform?act=clickPrise",//请求地址
+				data:{"articleId":articleId,"userId":userId}, //请求的参数  {username: 'name', password: '123456'}
+				type:"post",//请求的类型
+				dataType:"json",//接受的数据类型 text html xml json
+				//回调函数
+				success:function(result){
+					
+					if(result==1){
+						//  class="btn btn-default btn-sm"  class="btn btn-info btn-sm"
+						$(c).removeClass("btn btn-default btn-sm").addClass('btn btn-info btn-sm');
+						//得到点赞数 并且加一
+						var priseConetext = c.innerText;
+						var priseCount = parseInt(priseConetext.substring(2));
+						var val = priseCount+1;
+						$(c).html("<input type='hidden' value='"+articleId+"'/><span class='glyphicon glyphicon-thumbs-up'></span>点赞"+val);
+					}else{
+						$(c).removeClass("btn btn-info btn-sm").addClass('btn btn-default btn-sm');
+						//得到点赞数 并且减一
+						var priseConetext = c.innerText;
+						var priseCount = parseInt(priseConetext.substring(2));
+						var val = priseCount-1;
+						$(c).html("<input type='hidden' value='"+articleId+"'/><span class='glyphicon glyphicon-thumbs-up'></span>点赞"+val);
+					}
+				},
+				error:function(){
+					alert("系统繁忙，点赞失败")
+				}
+				
+			})
+		}else{  
+			window.location.href="LoginServlet?act=useLogin";
+		} 
+    }
+  	//分享功能实现
+	function share(){
+		alert("已经将链接复制到剪切板");
+  		clipboardData.setData("text", this.location.href);
+    }
+  	
+  	//删除
+  	function del(c){
+  		var flag = window.confirm("是否确定删除?");
+  	   	if(flag){
+  	   		window.location.href="campusInform?act=del&cId="+c;
+  	   	}
+  	}
+</script>
 </html>

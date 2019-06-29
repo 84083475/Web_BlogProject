@@ -72,19 +72,36 @@
 					<p>
 						${cInfo.cText }
 					</p>
+					<p>
+						<c:forEach items="${pictureList }" var="picture">
+							<c:if test="${picture.articleId==cInfo.cId }">
+								<img src="${picture.picturePath }" class="img-rounded" style="width: 200px;height: 200px;">
+							</c:if>
+						</c:forEach>
+					</p>
 					<p style="display:inline;">
 						
-						<a type="button" class="btn btn-default btn-sm">
-         					 <span class="glyphicon glyphicon-share-alt"></span>分享${cInfo.cTransmit }
-       					 </a>
+						<a class="btn btn-default btn-sm" onclick="share()">
+								<input type="hidden" value=""/>
+         					 	<span class="glyphicon glyphicon-share-alt"></span>分享
+       					 	</a>
 						<a id="openReply1" data-toggle="modal" data-target="#myModal"></a>
 				 		<a id="openReply" class="btn btn-default btn-sm" data-toggle="modal" data-target="#myModal" >
 				 			<span class="glyphicon glyphicon-pencil"></span>评论${cInfo.cReply }
 				 		</a>
 				 		
-				 		<a type="button" class="btn btn-default btn-sm">
-          					<span class="glyphicon glyphicon-thumbs-up"></span>点赞${cInfo.cPrise }
-        				</a>
+				 		<a onclick="prise(this)" 
+			 				<c:choose>
+			 					<c:when test="${cInfo.cStatus==0 }">
+			 						class="btn btn-default btn-sm"
+			 					</c:when>
+			 					<c:otherwise>
+									class="btn btn-info btn-sm"
+								</c:otherwise>
+			 				</c:choose> >
+				 				<input type="hidden" value="${cInfo.cId }"/>
+          						<span class="glyphicon glyphicon-thumbs-up"></span>点赞${cInfo.cPrise }
+       					</a>
         				
 				 		<h5 style="display:inline;position:relative;left:300px;">2019-02-23</h5>
 				 		<a href="#" style="position:relative;left:320px;">修改</a>
@@ -157,11 +174,11 @@
 	</body>
 	<script type="text/javascript">
 		//如果没有登录  直接返回登录界面
-		if(${user.userId==null }){
+		if(${user.userId==null}){
 			window.location.href="LoginServlet?act=useLogin";
 		}else{
 			//如果点击回复后 设置标题的字为     回复：${userName}
-			if(${userId1!=null}){
+			if(${userId1!=null }){
 				var userName = "${userName1}";
 				$("#title").val("回复："+userName);
 				$("#openReply1").trigger("click");//打开回复框
@@ -184,7 +201,7 @@
 					
 					//没必要进行判断 但是如果不判断  走评论的话  万一${userId1}==null  下面url会报错  jquery 无法正常运行
 					var userId1 = "${userId1}";
-					if(${userId1==null}){
+					if(${userId1== null}){
 						userId1 = -1;
 					}
 					
@@ -192,6 +209,50 @@
 				}
 			})
 		}
-		
+		//点击点赞按钮后运行
+	    function prise(c){
+			
+	    	var articleId = c.firstElementChild.value;
+			var userId = "${user.userId}";
+			
+			if(${user.userName!=null}){
+				$.ajax({
+					url:"campusInform?act=clickPrise",//请求地址
+					data:{"articleId":articleId,"userId":userId}, //请求的参数  {username: 'name', password: '123456'}
+					type:"post",//请求的类型
+					dataType:"json",//接受的数据类型 text html xml json
+					//回调函数
+					success:function(result){
+						
+						if(result==1){
+							//  class="btn btn-default btn-sm"  class="btn btn-info btn-sm"
+							$(c).removeClass("btn btn-default btn-sm").addClass('btn btn-info btn-sm');
+							//得到点赞数 并且加一
+							var priseConetext = c.innerText;
+							var priseCount = parseInt(priseConetext.substring(2));
+							var val = priseCount+1;
+							$(c).html("<input type='hidden' value='"+articleId+"'/><span class='glyphicon glyphicon-thumbs-up'></span>点赞"+val);
+						}else{
+							$(c).removeClass("btn btn-info btn-sm").addClass('btn btn-default btn-sm');
+							//得到点赞数 并且减一
+							var priseConetext = c.innerText;
+							var priseCount = parseInt(priseConetext.substring(2));
+							var val = priseCount-1;
+							$(c).html("<input type='hidden' value='"+articleId+"'/><span class='glyphicon glyphicon-thumbs-up'></span>点赞"+val);
+						}
+					}, 
+					error:function(){
+						alert("系统繁忙，点赞失败")
+					}
+				})
+			}else{
+				window.location.href="LoginServlet?act=useLogin";
+			}
+	   }
+	 	 //分享功能实现
+		function share(){
+			alert("已经将链接复制到剪切板");
+	  		clipboardData.setData("text", this.location.href);
+	    }
 	</script>
 </html>

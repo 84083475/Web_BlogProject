@@ -11,6 +11,7 @@ public class CInfo {
     private int cReply;  //回复数量
     private int cPrise;  //点赞数量
     private int cTransmit;//转发数量
+    private int cStatus; //点赞状态  0--该用户没有给该id点赞   1--该用户给该id点赞了
 	public String getUserId() {
 		return userId;
 	}
@@ -58,6 +59,12 @@ public class CInfo {
 	}
 	public void setcTransmit(int cTransmit) {
 		this.cTransmit = cTransmit;
+	}
+	public int getcStatus() {
+		return cStatus;
+	}
+	public void setcStatus(int cStatus) {
+		this.cStatus = cStatus;
 	}
     
 }

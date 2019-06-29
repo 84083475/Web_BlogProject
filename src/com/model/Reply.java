@@ -3,16 +3,16 @@ package com.model;
 import java.util.Date;
 
 public class Reply {
-	private String repId;  //回复id
+	private int repId;  //回复id
     private String repContent;  //回复内容
     private Date repDate;    //回复日期
     private String userId1; 	//用户1  id
     private String userId2;    //用户2   id
     private String articleId;   //文章id
-	public String getRepId() {
+	public int getRepId() {
 		return repId;
 	}
-	public void setRepId(String repId) {
+	public void setRepId(int repId) {
 		this.repId = repId;
 	}
 	public String getRepContent() {
@@ -44,6 +44,5 @@ public class Reply {
 	}
 	public void setArticleId(String articleId) {
 		this.articleId = articleId;
-	}
-    
+	}    
 }

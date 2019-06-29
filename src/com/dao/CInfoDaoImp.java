@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.model.CInfo;
+import com.model.Picture;
+import com.model.Prise;
 import com.model.Reply;
 import com.model.User;
 
@@ -24,7 +26,7 @@ public class CInfoDaoImp implements ICInfoDao{
 			Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "scott", "admin");
 			//3.获取一个Preparestatement
 			String sql = "select * from (select t1.* , rownum num  from ("
-					+ "select * from campus_inform order by cid) "
+					+ "select * from campus_inform order by cDate) "
 					+ "t1 where rownum <="+pageNumber*pageSize+")"
 					+ "where num>"+(pageNumber-1)*pageSize;
 			PreparedStatement psmt = conn.prepareStatement(sql);
@@ -351,6 +353,448 @@ public class CInfoDaoImp implements ICInfoDao{
 			}
 			if(pstm1!=null){
 				pstm1.close();
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void clickPrise(Prise prise) {
+		
+		try {
+			//JDBC数据库连接 1.加载驱动
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			//2.创建链接
+			Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "scott", "admin");
+			//3.获取一个Prepeastatement 预编译sql
+			String sql = "insert into tb_prise ( articleid, userid) values ( ?, ?)";
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			
+			String articleId = prise.getArticleId();
+			String userId = prise.getUserId();
+			pstm.setObject(1, articleId);
+			pstm.setObject(2, userId);
+			
+			pstm.execute();
+			if(conn!=null){
+				conn.close();
+			}
+			if(pstm!=null){
+				pstm.close();
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public int checkPrise(Prise prise) {
+		Connection conn=null;
+		PreparedStatement pstm=null;
+		try {
+			//JDBC数据库连接 1.加载驱动
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			//2.创建链接
+			conn= DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "scott", "admin");
+			//3.获取一个Prepeastatement 预编译sql
+			String sql = "select * from tb_prise where articleId = ? and userId = ?";
+			pstm = conn.prepareStatement(sql);
+			
+			String articleId = prise.getArticleId();
+			String userId = prise.getUserId();
+			pstm.setObject(1, articleId);
+			pstm.setObject(2, userId);
+			
+			ResultSet rs = pstm.executeQuery();	
+			if(rs.next()){
+				return -1;
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			try {
+				if(conn!=null){
+					conn.close();
+				}
+				if(pstm!=null){
+					pstm.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return 1;
+	}
+
+	@Override
+	public void delClickPrise(Prise prise) {
+		try {
+			//JDBC数据库连接 1.加载驱动
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			//2.创建链接
+			Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "scott", "admin");
+			//3.获取一个Prepeastatement 预编译sql
+			String sql = "delete tb_prise where articleId = ? and userId = ?";
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			
+			String articleId = prise.getArticleId();
+			String userId = prise.getUserId();
+			pstm.setObject(1, articleId);
+			pstm.setObject(2, userId);
+			
+			pstm.execute();
+			if(conn!=null){
+				conn.close();
+			}
+			if(pstm!=null){
+				pstm.close();
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Override 
+	public void updatePriseCount(int check,Prise prise) {
+		String cId = prise.getArticleId();
+		int priseCount = 0;
+		try {
+			//JDBC数据库连接 1.加载驱动
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			//2.创建链接
+			Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "scott", "admin");
+			//3.获取一个Prepeastatement 预编译sql
+			String sql = "select cPrise from campus_inform where cId = ?";
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setObject(1, cId);
+			ResultSet rs = pstm.executeQuery();
+			if(rs.next()){
+				priseCount = rs.getInt(1);
+			}
+			
+			if(check==1){
+				priseCount++;
+				String sql1 = "update campus_inform set cPrise = ? where cId = ?";
+				PreparedStatement pstm1 = conn.prepareStatement(sql1);
+				pstm1.setObject(1, priseCount);
+				pstm1.setObject(2, cId);
+				pstm1.execute();
+				
+				if(pstm1!=null){
+					pstm1.close();
+				}
+			}else{
+				priseCount--;
+				String sql1 = "update campus_inform set cPrise = ? where cId = ?";
+				PreparedStatement pstm1 = conn.prepareStatement(sql1);
+				pstm1.setObject(1, priseCount);
+				pstm1.setObject(2, cId);
+				pstm1.execute();
+				
+				if(pstm1!=null){
+					pstm1.close();
+				}
+			}
+			if(conn!=null){
+				conn.close();
+			}
+			if(pstm!=null){
+				pstm.close();
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public List searchPrise() {
+		List priseList = new ArrayList();
+		try {
+			//JDBC数据库连接 1.加载驱动
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			//2.创建链接
+			Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "scott", "admin");
+			//3.获取一个Prepeastatement 预编译sql
+			String sql = "select * from tb_prise";
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			ResultSet rs = pstm.executeQuery();
+			while(rs.next()){
+				Prise prise = new Prise();
+				prise.setpId(rs.getInt(1));
+				prise.setArticleId(rs.getString(2));
+				prise.setUserId(rs.getString(3));
+				priseList.add(prise);
+			}
+			
+			if(conn!=null){
+				conn.close();
+			}
+			if(pstm!=null){
+				pstm.close();
+			}
+			return priseList;
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List getPicturePath() {
+		List pictureList = new ArrayList();
+		try {
+			//JDBC数据库连接 1.加载驱动
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			//2.创建链接
+			Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "scott", "admin");
+			//3.获取一个Prepeastatement 预编译sql
+			String sql = "select * from tb_picture";
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			ResultSet rs = pstm.executeQuery();
+			while(rs.next()){
+				Picture picture = new Picture();
+				picture.setpId(rs.getInt(1));
+				picture.setPicturePath(rs.getString(2));
+				picture.setArticleId(rs.getString(3));
+				pictureList.add(picture);
+			}
+			if(conn!=null){
+				conn.close();
+			}
+			if(pstm!=null){
+				pstm.close();
+			}
+			return pictureList;
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public String getMaxCid() {
+		try {
+			//JDBC数据库连接 1.加载驱动
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			//2.创建链接
+			Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "scott", "admin");
+			//3.获取一个Prepeastatement 预编译sql
+			String sql = "select Max(to_number(cId)) from campus_inform";
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			ResultSet rs = pstm.executeQuery();
+			String cId = null;
+			if(rs.next()){
+				cId = rs.getInt(1)+"";
+			}
+			if(conn!=null){
+				conn.close();
+			}
+			if(pstm!=null){
+				pstm.close();
+			}
+			return cId;
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public void addPicturePath(Picture picture) {
+		try {
+			//JDBC数据库连接 1.加载驱动
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			//2.创建链接
+			Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "scott", "admin");
+			//3.获取一个Prepeastatement 预编译sql
+			String sql = "insert into tb_picture (picturepath, articleid) values(?, ?)";
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setObject(1, picture.getPicturePath());
+			pstm.setObject(2, picture.getArticleId());
+			pstm.execute();
+			if(conn!=null){
+				conn.close();
+			}
+			if(pstm!=null){
+				pstm.close();
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+
+	@Override
+	public void addCInfo(CInfo cInfo) {
+		try {
+			//JDBC数据库连接 1.加载驱动
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			//2.创建链接
+			Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "scott", "admin");
+			//3.获取一个Prepeastatement 预编译sql
+			String sql = "insert into campus_inform (userid, cid, cname, ctext, cdate, creply, cprise, ctransmit) values (?, ?, ?, ?, ?, ?, ?, ?)";
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setObject(1, cInfo.getUserId());
+			pstm.setObject(2, cInfo.getcId());
+			pstm.setObject(3, cInfo.getcName());
+			pstm.setObject(4, cInfo.getcText());
+			pstm.setObject(5, new java.sql.Date(cInfo.getcDate().getTime()));
+			pstm.setObject(6, cInfo.getcReply());
+			pstm.setObject(7, cInfo.getcPrise());
+			pstm.setObject(8, cInfo.getcTransmit());
+			pstm.execute();
+			if(conn!=null){
+				conn.close();
+			}
+			if(pstm!=null){
+				pstm.close();
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void delCInfo(String cId) {
+		try {
+			//JDBC数据库连接 1.加载驱动
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			//2.创建链接
+			Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "scott", "admin");
+			//3.获取一个Prepeastatement 预编译sql
+			String sql = "delete campus_inform where cId = ?";
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setObject(1, cId);
+			pstm.execute();
+			if(conn!=null){
+				conn.close();
+			}
+			if(pstm!=null){
+				pstm.close();
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void delReply(String cId) {
+		try {
+			//JDBC数据库连接 1.加载驱动
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			//2.创建链接
+			Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "scott", "admin");
+			//3.获取一个Prepeastatement 预编译sql
+			String sql = "delete tb_reply where articleId = ?";
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setObject(1, cId);
+			pstm.execute();
+			if(conn!=null){
+				conn.close();
+			}
+			if(pstm!=null){
+				pstm.close();
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void delPrise(String cId) {
+		try {
+			//JDBC数据库连接 1.加载驱动
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			//2.创建链接
+			Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "scott", "admin");
+			//3.获取一个Prepeastatement 预编译sql
+			String sql = "delete tb_prise where articleId = ?";
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setObject(1, cId);
+			pstm.execute();
+			if(conn!=null){
+				conn.close();
+			}
+			if(pstm!=null){
+				pstm.close();
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void delPicture(String cId) {
+		try {
+			//JDBC数据库连接 1.加载驱动
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			//2.创建链接
+			Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "scott", "admin");
+			//3.获取一个Prepeastatement 预编译sql
+			String sql = "delete tb_picture where articleId = ?";
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setObject(1, cId);
+			pstm.execute();
+			if(conn!=null){
+				conn.close();
+			}
+			if(pstm!=null){
+				pstm.close();
 			}
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
