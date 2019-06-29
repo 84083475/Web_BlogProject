@@ -264,7 +264,6 @@
 				error:function(){
 					alert("系统繁忙，点赞失败")
 				}
-				
 			})
 		}else{  
 			window.location.href="LoginServlet?act=useLogin";

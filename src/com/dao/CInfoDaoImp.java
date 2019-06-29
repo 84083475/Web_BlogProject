@@ -26,7 +26,7 @@ public class CInfoDaoImp implements ICInfoDao{
 			Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "scott", "admin");
 			//3.获取一个Preparestatement
 			String sql = "select * from (select t1.* , rownum num  from ("
-					+ "select * from campus_inform order by cDate) "
+					+ "select * from tb_article where articleType = 1 order by postDate) "
 					+ "t1 where rownum <="+pageNumber*pageSize+")"
 					+ "where num>"+(pageNumber-1)*pageSize;
 			PreparedStatement psmt = conn.prepareStatement(sql);
@@ -36,13 +36,12 @@ public class CInfoDaoImp implements ICInfoDao{
 				CInfo cInfo = new CInfo();
 				
 				String userId=rs.getString(1);
-				String cId=rs.getString(2);
+				int cId=rs.getInt(2);
 				String cName=rs.getString(3);
 				String cText=rs.getString(4);
 				Date cDate = rs.getDate(5);
 				int cReply=rs.getInt(6);
 				int cPrise=rs.getInt(7);
-				int cTransmit=rs.getInt(8);
 				
 				cInfo.setUserId(userId);
 				cInfo.setcId(cId);
@@ -51,7 +50,6 @@ public class CInfoDaoImp implements ICInfoDao{
 				cInfo.setcDate(cDate);
 				cInfo.setcReply(cReply);
 				cInfo.setcPrise(cPrise);
-				cInfo.setcTransmit(cTransmit);
 				
 				cInfoList.add(cInfo);
 			}
@@ -81,7 +79,7 @@ public class CInfoDaoImp implements ICInfoDao{
 			//2.创建链接
 			Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "scott", "admin");
 			//3.获取一个Prepeastatement 预编译sql
-			String sql = "select count(*) from campus_inform";
+			String sql = "select count(*) from tb_article";
 			PreparedStatement pstm = conn.prepareStatement(sql);
 			//4.执行sql
 			ResultSet rs = pstm.executeQuery();
@@ -117,14 +115,14 @@ public class CInfoDaoImp implements ICInfoDao{
 			//2.创建链接
 			Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "scott", "admin");
 			//3.获取一个Prepeastatement 预编译sql
-			String sql = "select * from campus_inform where cId = ?";
+			String sql = "select * from tb_article where articleId = ?";
 			PreparedStatement pstm = conn.prepareStatement(sql);
 			pstm.setObject(1, cId);
 			//4.执行sql
 			ResultSet rs = pstm.executeQuery();
 			if(rs.next()){
 				String userId=rs.getString(1);
-				String cId1=rs.getString(2);
+				int cId1=rs.getInt(2);
 				String cName=rs.getString(3);
 				String cText=rs.getString(4);
 				Date cDate = rs.getDate(5);
@@ -329,7 +327,7 @@ public class CInfoDaoImp implements ICInfoDao{
 			//2.创建链接
 			Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "scott", "admin");
 			//3.获取一个Prepeastatement 预编译sql
-			String sql = "select cReply from campus_inform where cId = ?";
+			String sql = "select Reply from tb_article where articleId = ?";
 			PreparedStatement pstm = conn.prepareStatement(sql);
 			pstm.setObject(1, cId);
 			//4.执行sql
@@ -339,7 +337,7 @@ public class CInfoDaoImp implements ICInfoDao{
 				cReply=Integer.parseInt(rs.getString(1));
 				cReply++;
 			}
-			String sql1 = "update campus_inform set creply = ? where cId = ?";
+			String sql1 = "update tb_article set reply = ? where articleId = ?";
 			PreparedStatement pstm1 = conn.prepareStatement(sql1);
 			pstm1.setObject(1, cReply);
 			pstm1.setObject(2, cId);
@@ -482,7 +480,7 @@ public class CInfoDaoImp implements ICInfoDao{
 			//2.创建链接
 			Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "scott", "admin");
 			//3.获取一个Prepeastatement 预编译sql
-			String sql = "select cPrise from campus_inform where cId = ?";
+			String sql = "select Prise from tb_article where articleId = ?";
 			PreparedStatement pstm = conn.prepareStatement(sql);
 			pstm.setObject(1, cId);
 			ResultSet rs = pstm.executeQuery();
@@ -492,7 +490,7 @@ public class CInfoDaoImp implements ICInfoDao{
 			
 			if(check==1){
 				priseCount++;
-				String sql1 = "update campus_inform set cPrise = ? where cId = ?";
+				String sql1 = "update tb_article set Prise = ? where articleId = ?";
 				PreparedStatement pstm1 = conn.prepareStatement(sql1);
 				pstm1.setObject(1, priseCount);
 				pstm1.setObject(2, cId);
@@ -503,7 +501,7 @@ public class CInfoDaoImp implements ICInfoDao{
 				}
 			}else{
 				priseCount--;
-				String sql1 = "update campus_inform set cPrise = ? where cId = ?";
+				String sql1 = "update tb_article set Prise = ? where articleId = ?";
 				PreparedStatement pstm1 = conn.prepareStatement(sql1);
 				pstm1.setObject(1, priseCount);
 				pstm1.setObject(2, cId);
@@ -581,7 +579,7 @@ public class CInfoDaoImp implements ICInfoDao{
 				Picture picture = new Picture();
 				picture.setpId(rs.getInt(1));
 				picture.setPicturePath(rs.getString(2));
-				picture.setArticleId(rs.getString(3));
+				picture.setArticleId(Integer.parseInt(rs.getString(3)));
 				pictureList.add(picture);
 			}
 			if(conn!=null){
@@ -609,7 +607,7 @@ public class CInfoDaoImp implements ICInfoDao{
 			//2.创建链接
 			Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "scott", "admin");
 			//3.获取一个Prepeastatement 预编译sql
-			String sql = "select Max(to_number(cId)) from campus_inform";
+			String sql = "select Max(articleId) from tb_article";
 			PreparedStatement pstm = conn.prepareStatement(sql);
 			ResultSet rs = pstm.executeQuery();
 			String cId = null;
@@ -671,7 +669,7 @@ public class CInfoDaoImp implements ICInfoDao{
 			//2.创建链接
 			Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "scott", "admin");
 			//3.获取一个Prepeastatement 预编译sql
-			String sql = "insert into campus_inform (userid, cid, cname, ctext, cdate, creply, cprise, ctransmit) values (?, ?, ?, ?, ?, ?, ?, ?)";
+			String sql = "insert into tb_article (userid, articleId, artTitle, artContent, postDate, reply, prise, articleType) values (?, ?, ?, ?, ?, ?, ?, 1)";
 			PreparedStatement pstm = conn.prepareStatement(sql);
 			pstm.setObject(1, cInfo.getUserId());
 			pstm.setObject(2, cInfo.getcId());
@@ -680,7 +678,6 @@ public class CInfoDaoImp implements ICInfoDao{
 			pstm.setObject(5, new java.sql.Date(cInfo.getcDate().getTime()));
 			pstm.setObject(6, cInfo.getcReply());
 			pstm.setObject(7, cInfo.getcPrise());
-			pstm.setObject(8, cInfo.getcTransmit());
 			pstm.execute();
 			if(conn!=null){
 				conn.close();
@@ -705,7 +702,7 @@ public class CInfoDaoImp implements ICInfoDao{
 			//2.创建链接
 			Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "scott", "admin");
 			//3.获取一个Prepeastatement 预编译sql
-			String sql = "delete campus_inform where cId = ?";
+			String sql = "delete tb_article where articleId = ?";
 			PreparedStatement pstm = conn.prepareStatement(sql);
 			pstm.setObject(1, cId);
 			pstm.execute();

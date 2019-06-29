@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class CInfo {
 	private String userId;  //用户id
-    private String cId;    //文章id
+    private int cId;    //文章id
     private String cName;  //文章名字
     private String cText;  //文章内容
     private Date cDate;  //发布日期
@@ -18,10 +18,10 @@ public class CInfo {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	public String getcId() {
+	public int getcId() {
 		return cId;
 	}
-	public void setcId(String cId) {
+	public void setcId(int cId) {
 		this.cId = cId;
 	}
 	public String getcName() {

@@ -18,7 +18,7 @@ public class CInfoServiceImp implements ICInfoService{
 		
 		CInfoDaoImp cid = new CInfoDaoImp();
 		List<CInfo> cInfoList=cid.search(pageNumber,pageSize);  //得到所有的文章的内容
-		List<Prise> priseList = cid.searchPrise();   //得到所有的点赞信息
+		List<Prise> priseList = cid.searchPrise();  //得到所有的点赞信息
 		//判断当前用户是否给该篇文章点过赞   如果点过赞 就把点赞状态设置为1  否则设置为0
 		List<String> priseArticleId = new ArrayList<String>();
 		for(int i=0;i<priseList.size();i++){
@@ -28,7 +28,7 @@ public class CInfoServiceImp implements ICInfoService{
 		}
 		for(int i=0;i<priseArticleId.size();i++){
 			for(int j=0;j<cInfoList.size();j++){
-				if(priseArticleId.get(i).equals(cInfoList.get(j).getcId())){
+				if(priseArticleId.get(i).equals(String.valueOf(cInfoList.get(j).getcId()))){
 					cInfoList.get(j).setcStatus(1);
 				}else{
 					if(cInfoList.get(j).getcStatus()!=1){
@@ -61,7 +61,7 @@ public class CInfoServiceImp implements ICInfoService{
 			}
 		}
 		for(int i=0;i<priseArticleId.size();i++){
-			if(priseArticleId.get(i).equals(cInfo.getcId())){
+			if(priseArticleId.get(i).equals(String.valueOf(cInfo.getcId()))){
 				cInfo.setcStatus(1);
 			}else{
 				if(cInfo.getcStatus()!=1){
@@ -149,24 +149,21 @@ public class CInfoServiceImp implements ICInfoService{
 		//处理cId  拿到下一个cId
 		String preCId = cdi.getMaxCid();
 		if(preCId.equals("0")){
-			preCId="10";
+			preCId="0";
 		}
-		String id = preCId.substring(1);
-		Integer id1 = Integer.parseInt(id);
-		id1++;
-		String nextCId = "1"+id1;
+		Integer id = Integer.parseInt(preCId);
+		id++;
 		
-		cInfo.setcId(nextCId);
+		cInfo.setcId(id);
 		
 		//如果有发表图片的话 就发表图片
 		if(!pictureList.isEmpty()){
 			for(int i=0;i<pictureList.size();i++){
-				pictureList.get(i).setArticleId(nextCId);
+				pictureList.get(i).setArticleId(id);
 				//把图片地址信息存储到数据库
 				cdi.addPicturePath(pictureList.get(i));
 			}
 		}
-		
 		//文章信息  存储到数据库
 		cdi.addCInfo(cInfo);
 		
